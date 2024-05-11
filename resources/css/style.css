@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+nav {
+    width: 200px;
+    background-color: #333;
+    height: 100vh;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding-top: 20px;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+nav ul li a {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+nav ul li a:hover {
+    transform: scale(1.1);
+}
+
+.nav-divider {
+    border-top: 1px solid #fff;
+    margin: 10px 0;
+    width: 100%;
+}
+.nav-title {
+    color: #fff;
+    padding: 10px;
+    font-weight: bold;
+}
+.nav-item-logout a {
+    color: red !important;
+    font-weight: bold;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 10px;
+    margin-top: 80px;
+}
+.product-list {
+    list-style: none;
+    padding: 0;
+}
+.product-item {
+    border-bottom: 1px solid #dee2e6;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+}
+.product-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+.product-details {
+    flex: 1;
+}
+.product-details h5 {
+    margin-bottom: 5px;
+}
+.product-details p {
+    margin: 0;
+}
+.btn-edit, .btn-delete {
+    margin-left: auto;
+}
