@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repository\StaffRepositoryInterface;
+use App\Repository\StaffRepository; 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(StaffRepositoryInterface::class, StaffRepository::class);
     }
 
     /**
@@ -21,4 +23,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    
 }

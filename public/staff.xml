@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<staff>
+  <staff_member>
+    <id>1</id>
+    <staffCode>A100</staffCode>
+    <staffName>PONG LO</staffName>
+    <staffPassword>s1012</staffPassword>
+    <staffType>admin</staffType>
+    <staffEmail>example@gmail.com</staffEmail>
+    <deploymentDate>2024-05-06</deploymentDate>
+    <image/>
+  </staff_member>
+  <staff_member>
+    <id>2</id>
+    <staffCode>S100</staffCode>
+    <staffName>TENG</staffName>
+    <staffPassword>ASDFFFF</staffPassword>
+    <staffType>staff</staffType>
+    <staffEmail>S100@gmail.com</staffEmail>
+    <deploymentDate>2024-05-05</deploymentDate>
+    <image/>
+  </staff_member>
+  <staff_member>
+    <id>3</id>
+    <staffCode>s102</staffCode>
+    <staffName>sang</staffName>
+    <staffPassword>s200</staffPassword>
+    <staffType>staff</staffType>
+    <staffEmail>s102@gmail.com</staffEmail>
+    <deploymentDate>2024-05-06</deploymentDate>
+    <image/>
+  </staff_member>
+  <staff_member>
+    <id>4</id>
+    <staffCode>s103</staffCode>
+    <staffName>hong</staffName>
+    <staffPassword>s201</staffPassword>
+    <staffType>staff</staffType>
+    <staffEmail>s103@gmail.com</staffEmail>
+    <deploymentDate>2024-05-07</deploymentDate>
+    <image/>
+  </staff_member>
+  <staff_member>
+    <id>5</id>
+    <staffCode>S104</staffCode>
+    <staffName>rui</staffName>
+    <staffPassword>aaaaaaaaaa</staffPassword>
+    <staffType>staff</staffType>
+    <staffEmail>S104@gmail.com</staffEmail>
+    <deploymentDate>2024-05-12</deploymentDate>
+    <image/>
+  </staff_member>
+</staff>
