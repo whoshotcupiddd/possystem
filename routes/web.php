@@ -2,17 +2,14 @@
 
 use Illuminate\Support\Facades\Route; // Make sure this line is added
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 
 // Homepage route
-Route::get('/', function () {
-    return view('index');
-})->name('index');
-
+Route::get('/', [HomeController::class, 'index'])->name('index');
 // Products routes
-
 //add
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');// Store new product route
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
@@ -34,3 +31,5 @@ Route::post('/orders/proceed-to-payment', [OrderController::class, 'proceedToPay
 // Payment route
 Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment');
 Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
+Route::get('/receipt', [PaymentController::class, 'receipt'])->name('receipt');
+

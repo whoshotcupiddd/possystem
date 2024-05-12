@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -11,22 +13,28 @@ class ProductController extends Controller
     /**
      * Display a listing of the products with optional filtering.
      */
+
     public function index(Request $request)
     {
         $query = Product::query();
 
-//        // Search filter
-//        if ($request->has('search')) {
-//            $query->where('name', 'like', '%' . $request->search . '%');
-//        }
-//
-//        // Quantity filter
-//        if ($request->has('quantity')) {
-//            $query->where('quantity', '>=', $request->quantity);
-//        }
+        // Apply search filter if provided
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Apply quantity or price filter if provided
+        if ($request->filled('filter')) {
+            $filter = $request->filter;
+            if ($filter === 'price_asc') {
+                $query->orderBy('price', 'asc');
+            } elseif ($filter === 'price_desc') {
+                $query->orderBy('price', 'desc');
+            }
+        }
 
         // Execute the query and get the results
-        $products = Product::all();
+        $products = $query->get();
 
         // Pass the retrieved products to the view
         return view('products.products', ['products' => $products]);

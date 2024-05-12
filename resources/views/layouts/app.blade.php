@@ -1,4 +1,4 @@
-"<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,9 @@
             background-color: #343a40;
             padding-top: 20px;
             color: #fff;
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Arrange items vertically */
+            justify-content: space-between; /* Align items with space between */
         }
 
         .sidenav h1 {
@@ -31,16 +34,19 @@
             margin-bottom: 30px;
             font-size: 24px;
             color: #fff;
+            cursor: pointer; /* Add cursor pointer */
         }
 
         .sidenav a {
-            padding: 12px;
+            padding: 12px 20px; /* Adjust padding */
             text-decoration: none;
             font-size: 18px;
             color: #dcdcdc; /* Lighter color */
             font-weight: normal; /* Less bold */
             display: block;
             transition: all 0.3s ease;
+            display: flex; /* Use flexbox */
+            align-items: center; /* Align items vertically */
         }
 
         .sidenav a:hover {
@@ -64,18 +70,17 @@
 <body>
 
 <div class="sidenav">
-    <h1>POS SYSTEM</h1>
-    <a href="#"><i class="fas fa-users mr-2"></i> Customers</a>
-    <a href="{{ route('products.index') }}"><i class="fas fa-box mr-2"></i> Products</a>
-    <a href="{{ route('orders.index') }}"><i class="fas fa-shopping-cart mr-2"></i> Orders</a>
-    <a href="{{ route('payment') }}"><i class="fas fa-money-bill-wave mr-2"></i> Payments</a>
-    <a href="#"><i class="fas fa-receipt mr-2"></i> Receipts</a>
-    <hr style="background-color: #fff;">
-    <span style="color: #fff; font-weight: bold; padding: 12px;">Reporting</span>
-    <a href="#"><i class="fas fa-chart-line mr-2"></i> Orders</a>
-    <a href="#"><i class="fas fa-money-bill-wave mr-2"></i> Payments</a>
-    <hr style="background-color: #fff;">
-    <a href="#" style="color: red; font-weight: bold;"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+    <a href="{{ route('index') }}" class="sidenav-title"><h1>POS SYSTEM</h1></a> <!-- Make the title clickable -->
+    <a href="{{ route('products.index') }}"><i class="fas fa-box mr-2"></i> <span>Products</span></a>
+    <a href="{{ route('orders.index') }}"><i class="fas fa-receipt mr-2"></i> <span>Orders</span></a>
+    <a href="#"><i class="fas fa-shopping-cart mr-2"></i> <span>Cart</span></a>
+    <a href="#"><i class="fas fa-user mr-2"></i> <span>User Profile</span></a> <!-- Changed icon to user icon -->
+    <a href="{{ route('receipt') }}"><i class="fas fa-receipt mr-2"></i> <span>Receipts</span></a>
+
+    <div style="margin-top: auto;"> <!-- Move the logout link to the bottom -->
+        <hr style="background-color: #fff;">
+        <a href="#" style="color: red; font-weight: bold;"><i class="fas fa-sign-out-alt mr-2"></i> <span>Logout</span></a>
+    </div>
 </div>
 
 <main role="main" class="content">
@@ -87,4 +92,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </body>
 </html>
-"
