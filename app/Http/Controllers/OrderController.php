@@ -25,6 +25,9 @@ class OrderController extends Controller
 
     // If the "View Order" button is not clicked, return the view to order products
     return view('orders.order', compact('products'));
+
+    //https
+    return Order::all();
     }
     
 
@@ -51,29 +54,29 @@ class OrderController extends Controller
     }
 
     private function loadOrdersFromXML()
-{
-    $xmlFile = public_path('xml/orders.xml');
-    $xmlData = file_get_contents($xmlFile);
-    $orders = [];
+    {
+        $xmlFile = public_path('xml/orders.xml');
+        $xmlData = file_get_contents($xmlFile);
+        $orders = [];
 
-    if ($xmlData) {
-        $xml = new SimpleXMLElement($xmlData);
-        foreach ($xml->order as $order) {
-            $orderData = [
-                'id' => (int)$order->id,
-                'product' => [
-                    'name' => (string)$order->product->name,
-                    'price' => (float)$order->product->price
-                ],
-                'quantity' => (int)$order->quantity,
-                'total_price' => (float)$order->total_price
-            ];
-            $orders[] = $orderData;
+        if ($xmlData) {
+            $xml = new SimpleXMLElement($xmlData);
+            foreach ($xml->order as $order) {
+                $orderData = [
+                    'id' => (int)$order->id,
+                    'product' => [
+                        'name' => (string)$order->product->name,
+                        'price' => (float)$order->product->price
+                    ],
+                    'quantity' => (int)$order->quantity,
+                    'total_price' => (float)$order->total_price
+                ];
+                $orders[] = $orderData;
+            }
         }
-    }
 
-    return $orders;
-}
+        return $orders;
+    }
 
 
     public function confirmOrder(Request $request)
@@ -90,13 +93,38 @@ class OrderController extends Controller
     }
 
     // Inside your OrderController class
-public function history()
-{
-    // Retrieve order history from the database
-    $orders = Order::all(); // Assuming Order is your model for orders
+    public function history()
+    {
+        // Retrieve order history from the database
+        $orders = Order::all(); // Assuming Order is your model for orders
 
-    // Return the view to display the order history
-    return view('orders.history', compact('orders'));
+        // Return the view to display the order history
+        return view('orders.history', compact('orders'));
+    }
+
+
+// Web Service
+public function store(Request $request)
+{
+    return Order::create($request->all());
 }
 
+public function show($id)
+{
+    return Order::findOrFail($id);
+}
+
+public function update(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
+    $order->update($request->all());
+    return $order;
+}
+
+public function destroy($id)
+{
+    $order = Order::findOrFail($id);
+    $order->delete();
+    return 204; // No content response
+}
 }

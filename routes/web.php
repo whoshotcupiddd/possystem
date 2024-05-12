@@ -28,9 +28,16 @@ Route::delete('/products/{product}/delete-image', [ProductController::class, 'de
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::post('/orders/proceed-to-payment', [OrderController::class, 'proceedToPayment'])->name('orders.proceedToPayment');
+
+//Order history
 Route::get('/order/history', [OrderController::class, 'history'])->name('order.history');
 
-
+// Order Web Service
+// Route::get('/orders', [OrderController::class, 'index']);
+Route::post('/orders', [OrderController::class, 'store']);
+Route::get('/orders/{id}', [OrderController::class, 'show']);
+Route::put('/orders/{id}', [OrderController::class, 'update']);
+Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
 
 // Payment route
 Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment');
