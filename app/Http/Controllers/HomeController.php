@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\Order;
 use App\Models\Product;
+=======
+>>>>>>> origin/adminSystem
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+<<<<<<< HEAD
     public function index()
     {
         // Retrieve necessary data
@@ -29,5 +33,25 @@ class HomeController extends Controller
 
         // Pass data to the view
         return view('index', compact('totalProducts', 'totalRevenue', 'totalOrders', 'totalSales', 'recentOrders', 'dailySales'));
+=======
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
+>>>>>>> origin/adminSystem
     }
 }

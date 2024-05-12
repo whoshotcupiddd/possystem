@@ -3,7 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Schema;
+=======
+use App\Repository\StaffRepositoryInterface;
+use App\Repository\StaffRepository; 
+>>>>>>> origin/adminSystem
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(StaffRepositoryInterface::class, StaffRepository::class);
     }
 
     /**
@@ -23,4 +28,5 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultStringLength(191);
     }
+    
 }
