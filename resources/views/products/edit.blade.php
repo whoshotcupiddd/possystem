@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                    <img src="{{asset("images/" .$product->image_filepath)}}" class="card-img-top" alt="{{ $product->name }}">
                 </div>
             </div>
             <div class="col-md-6">
