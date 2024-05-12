@@ -1,10 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 
 @section('title', 'Order Food')
 
 @section('content')
 <div class="container">
     <h1>Order Food</h1>
+    
+    <form method="get" action="{{ route('orders.index') }}">
+        @csrf
+        <button type="submit" name="view_orders" class="btn btn-primary">View Order List</button>
+    </form>
+
     <div class="row">
         <div class="col-md-8">
             <div class="row">
@@ -22,21 +28,11 @@
                 @endforeach
             </div>
         </div>
+
+        
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h2>Order Summary</h2>
-                    <ul class="list-group" id="orderSummary">
-                        <!-- Orders will be dynamically added here -->
-                    </ul>
-                    <strong>Subtotal:</strong> $<span id="subtotal">0.00</span><br>
-                    <strong>Tax (10%):</strong> $<span id="tax">0.00</span><br>
-                    <strong>Total Price:</strong> $<span id="totalPrice">0.00</span>
-                    <!-- Proceed to Payment Button -->
-                    <button type="button" class="btn btn-success btn-block" onclick="proceedToPayment()">Proceed to
-                        Payment</button>
-                </div>
-            </div>
+        <!-- this is using the Template Method (design pattern)-->
+            @include('orders.order_summary') 
         </div>
     </div>
 </div>
@@ -91,13 +87,14 @@
                 Your order has been taken successfully!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="proceedToPaymentBtn">OK</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+
     function showOrderModal(productId, productName, productPrice) {
         $('#productName').val(productName);
         $('#quantity').val(1);
@@ -107,49 +104,96 @@
         $('#orderModal').data('productPrice', productPrice);
     }
 
+    
     var productData = []; // Array to store product data (ID and price)
 
     function addOrder() {
+       
         var productId = $('#orderModal').data('productId');
-        var productName = $('#productName').val();
-        var quantity = $('#quantity').val();
-        var remarks = $('#remarks').val();
-        var price = parseFloat($('#orderModal').data('productPrice'));
-        var totalPrice = price * quantity;
+    var productName = $('#productName').val();
+    var quantity = $('#quantity').val();
+    var remarks = $('#remarks').val();
+    var price = parseFloat($('#orderModal').data('productPrice'));
+    var totalPrice = price * quantity;
 
-        var orderItem = '<li class="list-group-item">' +
-            productName + ' - $' + totalPrice.toFixed(2) + ' (' + quantity + ' items)' +
-            (remarks ? ' - Remarks: ' + remarks : '') +
-            '</li>';
+    var orderItem = '<li class="list-group-item">' +
+        productName + ' - $' + totalPrice.toFixed(2) + ' (' + quantity + ' items)' +
+        (remarks ? ' - Remarks: ' + remarks : '') +
+        '<button type="button" class="btn btn-sm btn-danger float-right" onclick="removeOrder(' + $('#orderSummary li').length + ')">Remove</button>' +
+        '</li>';
 
-        $('#orderSummary').append(orderItem);
+    $('#orderSummary').append(orderItem);
 
-        // Update subtotal, tax, and total price
-        var subtotal = parseFloat($('#subtotal').text());
-        var tax = parseFloat($('#tax').text());
-        subtotal += totalPrice;
-        tax = subtotal * 0.1; // Assuming 10% tax
+    // Update subtotal, tax, and total price
+    var subtotal = parseFloat($('#subtotal').text());
+    var tax = parseFloat($('#tax').text());
+    subtotal += totalPrice;
+    tax = subtotal * 0.1; // Assuming 10% tax
+    var total = subtotal + tax;
+
+    $('#subtotal').text(subtotal.toFixed(2));
+    $('#tax').text(tax.toFixed(2));
+    $('#totalPrice').text(total.toFixed(2));
+
+    $('#orderModal').modal('hide');
+
+    // Add the productId and price to the array
+    productData.push([productId, totalPrice]);
+    }
+
+    function proceedToPayment() {
+        
+        // Check if order summary is empty
+        if ($('#orderSummary li').length === 0) {
+        // Show an alert message using JavaScript
+        alert('Please add items to your order before proceeding to payment.');
+        return; // Stop further execution
+    }
+
+    // Show order taken modal
+    $('#orderTakenModal').modal('show');
+
+   
+    setTimeout(function() {
+        var productIdsParam = productData.map(item => item[0]).join(',');
+        var productPricesParam = productData.map(item => item[1]).join(',');
+        window.location.href = "{{ route('payment') }}?productIds=" + productIdsParam + "&productPrices=" + productPricesParam;
+    }, 2000); // 2000 milliseconds = 2 seconds
+
+    }
+
+    function removeOrder(index) {
+    // Remove the order item from the array
+    productData.splice(index, 1);
+
+    // Remove the order item from the order summary
+    $('#orderSummary li').eq(index).remove();
+
+    // Update the index of the remaining items in the array
+    $('#orderSummary li').each(function(i) {
+        $(this).find('.btn-danger').attr('onclick', 'removeOrder(' + i + ')');
+    });
+
+    // Recalculate subtotal, tax, and total price
+    recalculatePrices();
+}
+
+    
+
+    function recalculatePrices() {
+        var subtotal = 0;
+        $('#orderSummary li').each(function () {
+            var totalPrice = parseFloat($(this).text().split('$')[1].split(' ')[0]);
+            subtotal += totalPrice;
+        });
+
+        var tax = subtotal * 0.1; // Assuming 10% tax
         var total = subtotal + tax;
 
         $('#subtotal').text(subtotal.toFixed(2));
         $('#tax').text(tax.toFixed(2));
         $('#totalPrice').text(total.toFixed(2));
-
-        $('#orderModal').modal('hide');
-
-        // Add the productId and price to the array
-        productData.push([productId, totalPrice]);
     }
-
-    function proceedToPayment() {
-        // Show order taken modal
-        $('#orderTakenModal').modal('show');
-
-        // Redirect to the payment page after 2 seconds
-        var productIdsParam = productData.map(item => item[0]).join(',');
-        var productPricesParam = productData.map(item => item[1]).join(',');
-        window.location.href = "{{ route('payment') }}?productIds=" + productIdsParam + "&productPrices=" + productPricesParam;
-    }
-
+    
 </script>
 @endsection
