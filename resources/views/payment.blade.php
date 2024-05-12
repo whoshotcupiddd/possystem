@@ -3,6 +3,11 @@
 @section('title', 'Payment')
 
 @section('content')
+<style>
+    .container{
+    margin:160px 200px;
+}
+    </style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
